@@ -1,3 +1,5 @@
+import Erros from '../constants/Erros'
+
 export default class UsuarioAnemicoV3 {
   constructor(
     private id: number,
@@ -40,6 +42,7 @@ export default class UsuarioAnemicoV3 {
   }
 
   setSenha(senha: string) {
+    if (senha.length < 6) throw new Error(Erros.SENHA_INVALIDA)
     this.senha = senha
   }
 }

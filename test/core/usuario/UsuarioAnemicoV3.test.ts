@@ -1,4 +1,5 @@
 // import UsuarioAnemicoV2 from '@/core/usuario/UsuarioAnemicoV2'
+import Erros from '../../../src/core/constants/Erros'
 import UsuarioAnemicoV3 from '../../../src/core/usuario/UsuarioAnemicoV3'
 
 import { it, describe, expect } from 'vitest'
@@ -6,7 +7,7 @@ import { it, describe, expect } from 'vitest'
 const usuarioValido = () =>
   new UsuarioAnemicoV3(123, 'Xuxa', 'xuxa@email.com', '123456')
 
-describe('Usuário Anêmico V2', () => {
+describe('Usuário Anêmico V3', () => {
   it('Deve permitir usuário com nome undefined', () => {
     const usuario = usuarioValido()
     usuario.setNome(undefined as any)
@@ -31,9 +32,15 @@ describe('Usuário Anêmico V2', () => {
     expect(usuario.getEmail()).toBe('@#$%')
   })
 
-  it('Deve permitir usuário com senha inválida', () => {
+  it('Deve lançar erro ao tentar alterar senha menor que 6 caracteres', () => {
     const usuario = usuarioValido()
-    usuario.setSenha('a')
-    expect(usuario.getSenha()).toBe('a')
+    expect(() => usuario.setSenha('a')).toThrowError(Erros.SENHA_INVALIDA)
+  })
+
+  it('Deve alterar senha para uma senha válida', () => {
+    const novaSenhaValida = '123123'
+    const usuario = usuarioValido()
+    usuario.setSenha(novaSenhaValida)
+    expect(usuario.getSenha()).toBe(novaSenhaValida)
   })
 })
