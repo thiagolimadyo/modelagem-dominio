@@ -1,4 +1,5 @@
 import Erros from '../constants/Erros'
+import Validador from '../utils/Validador'
 
 export default class UsuarioAnemicoV3 {
   constructor(
@@ -34,7 +35,9 @@ export default class UsuarioAnemicoV3 {
   }
 
   setEmail(email: string) {
-    this.email = email
+    if (Validador.isEmailValido(email)) {
+      this.email = email
+    }
   }
 
   getSenha(): string {

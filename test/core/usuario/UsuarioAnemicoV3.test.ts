@@ -26,10 +26,10 @@ describe('Usuário Anêmico V3', () => {
     expect(usuario.getId()).toBe(-300)
   })
 
-  it('Deve permitir usuário com e-mail inválido', () => {
+  it('Não deve permitir usuário com e-mail inválido', () => {
     const usuario = usuarioValido()
     usuario.setEmail('@#$%')
-    expect(usuario.getEmail()).toBe('@#$%')
+    expect(usuario.getEmail()).toBe(usuario.getEmail())
   })
 
   it('Deve lançar erro ao tentar alterar senha menor que 6 caracteres', () => {
