@@ -17,5 +17,5 @@
     "outDir": "./dist",
     "declaration": false
   },
-  "include": ["src", "tests"]
+  "include": ["src", "test"]
 }
