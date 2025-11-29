@@ -11,7 +11,7 @@ export default class UsuarioAnemicoV3 {
     this.setId(id)
     this.setNome(nome)
     this.setEmail(email)
-    if (senha) this.setSenha(senha)
+    senha && this.setSenha(senha)
   }
 
   getId(): number {
