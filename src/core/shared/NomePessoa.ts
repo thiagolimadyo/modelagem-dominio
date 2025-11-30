@@ -10,5 +10,7 @@ export default class NomePessoa {
     const erros = Validador.combinar(
       Validador.naoVazia(this.nome, Erros.NOME_VAZIO)
     )
+
+    if (erros) throw new Error(erros.join(','))
   }
 }
