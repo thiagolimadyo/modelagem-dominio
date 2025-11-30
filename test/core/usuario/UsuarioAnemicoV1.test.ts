@@ -12,7 +12,6 @@ const usuarioValido: UsuarioAnemicoV1 = {
 describe('Usuario Anêmico V1', () => {
   it('Deve permitir usuário com nome undefined', () => {
     const usuario = { ...usuarioValido, nome: undefined }
-    console.log(usuario)
     expect(usuario.nome).toBeUndefined()
   })
 

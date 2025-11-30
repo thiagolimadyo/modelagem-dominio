@@ -1,4 +1,29 @@
 export default class Validador {
+  static combinar(...erros: (string | null)[]): string[] | null {
+    const errosFiltrados = erros.filter((erro) => erro !== null) as string[]
+    return errosFiltrados.length > 0 ? errosFiltrados : null
+  }
+
+  static naoNulo(valor: any, erro: string): string | null {
+    return valor !== null && valor !== undefined ? null : erro
+  }
+
+  static naoVazia(
+    valor: string | null | undefined,
+    erro: string
+  ): string | null {
+    if (Validador.naoNulo(valor, erro)) return erro
+    return valor!.trim() !== '' ? null : erro
+  }
+
+  static tamanhoMenorQue(
+    valor: string | any[],
+    tamanhoMaximo: number,
+    erro: string
+  ): string | null {
+    return valor.length < tamanhoMaximo ? null : erro
+  }
+
   static isEmailValido(email: string): boolean {
     const regex =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
