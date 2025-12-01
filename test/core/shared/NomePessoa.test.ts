@@ -28,4 +28,15 @@ describe('Teste Object Value: NomePessoa.ts', () => {
       Erros.NOME_CARACTERES_INVALIDOS
     )
   })
+
+  it('Deve permitir cadastrar um nome válido', () => {
+    const novoNome = 'Xuxa da Silva'
+    const nome = new NomePessoa(novoNome)
+
+    expect(nome.completo).toBe(novoNome)
+    expect(nome.primeiroNome).toBe('Xuxa')
+    expect(nome.sobrenomes).toEqual(['da', 'Silva'])
+    expect(nome.ultimoSobrenome).toBe('Silva')
+    expect(nome.sobrenomesFormatados).toBe('da Silva')
+  })
 })

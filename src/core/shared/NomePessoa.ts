@@ -21,4 +21,24 @@ export default class NomePessoa {
 
     if (erros) throw new Error(erros.join(','))
   }
+
+  get completo() {
+    return this.nome
+  }
+
+  get primeiroNome() {
+    return this.nome.split(' ')[0]
+  }
+
+  get sobrenomes(): string[] {
+    return this.nome.split(' ').slice(1)
+  }
+
+  get sobrenomesFormatados(): string {
+    return this.sobrenomes.join(' ')
+  }
+
+  get ultimoSobrenome(): string {
+    return this.sobrenomes.at(-1) as string
+  }
 }
