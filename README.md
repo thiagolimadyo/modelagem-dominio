@@ -44,3 +44,6 @@ export default defineConfig({
 }
 
 ```
+
+7. npm i uuid
+8. npm i -D @types/uuid
