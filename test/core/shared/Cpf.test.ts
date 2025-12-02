@@ -3,6 +3,14 @@ import Cpf from '../../../src/core/shared/Cpf'
 import Erros from '../../../src/core/constants/Erros'
 
 describe('Testes do VO Cpf', () => {
+  it('Deve retornar CPF inválido (false) para string vazia', () => {
+    expect(Cpf.isValido('')).toBeFalsy()
+  })
+
+  it('Deve retornar CPF inválido (false) para string incompleta', () => {
+    expect(Cpf.isValido('328714')).toBeFalsy()
+  })
+
   it('Deve lançar erro ao receber CPF inválido', () => {
     expect(() => new Cpf('123123123')).toThrowError(Erros.CPF_INVALIDO)
   })
@@ -20,5 +28,11 @@ describe('Testes do VO Cpf', () => {
 
   it('Deve retornar o CPF formato com . e -', () => {
     expect(new Cpf('28001238938').formatado).toBe('280.012.389-38')
+  })
+
+  it('Deve permitir cadastrar um CPF válido', () => {
+    const cpf = new Cpf('280.012.389-38')
+    console.log(cpf.valor)
+    expect(cpf.valor).toBe('28001238938')
   })
 })

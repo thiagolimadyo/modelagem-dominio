@@ -5,33 +5,17 @@ export default class Cpf {
   readonly valor: string
 
   constructor(valor: string) {
-    this.valor = valor.trim()
+    this.valor = valor.trim().replace(/\D/g, '')
 
     if (!Cpf.isValido(this.valor)) throw new Error(Erros.CPF_INVALIDO)
 
     if (!Cpf.validarDV(this.valor)) throw new Error(Erros.CPF_DV_INVALIDO)
   }
 
-  get ArrayNumerico() {
-    return this.valor.split('').map(Number)
-  }
-
-  get formatado() {
-    let posicao1 = this.ArrayNumerico.slice(0, 3).join('')
-    let posicao2 = this.ArrayNumerico.slice(3, 6).join('')
-    let posicao3 = this.ArrayNumerico.slice(6, 9).join('')
-    let posicao4 = this.ArrayNumerico.slice(9, 11).join('')
-
-    return `${posicao1}.${posicao2}.${posicao3}-${posicao4}`
-  }
-
-  get digitoVerificador() {
-    return this.valor.substring(9, 11)
-  }
-
   static isValido(cpf: string): boolean {
-    const regex = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/
-    return regex.test(cpf)
+    if (!cpf) return false
+    if (cpf.length !== 11) return false
+    return true
   }
 
   private static validarDV(cpf: string): boolean {
@@ -57,4 +41,26 @@ export default class Cpf {
 
     return resto === (0 | 1) ? 0 : 11 - resto
   }
+
+  get ArrayNumerico() {
+    return this.valor.split('').map(Number)
+  }
+
+  get formatado() {
+    let posicao1 = this.ArrayNumerico.slice(0, 3).join('')
+    let posicao2 = this.ArrayNumerico.slice(3, 6).join('')
+    let posicao3 = this.ArrayNumerico.slice(6, 9).join('')
+    let posicao4 = this.ArrayNumerico.slice(9, 11).join('')
+
+    return `${posicao1}.${posicao2}.${posicao3}-${posicao4}`
+  }
+
+  get digitoVerificador() {
+    return this.valor.substring(9, 11)
+  }
 }
+
+// static isValido(cpf: string): boolean {
+//   const regex = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/
+//   return regex.test(cpf)
+// }
