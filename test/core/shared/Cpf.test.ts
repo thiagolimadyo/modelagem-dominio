@@ -10,6 +10,10 @@ describe('Testes do VO Cpf', () => {
     expect(Cpf.isValido('')).toBeFalsy()
   })
 
+  it('Deve lançar erro ao tentar criar CPF vazio (undefined)', () => {
+    expect(() => new Cpf()).toThrowError(Erros.CPF_INVALIDO)
+  })
+
   it('Deve retornar CPF inválido (false) para string incompleta', () => {
     expect(Cpf.isValido('280')).toBeFalsy()
     expect(Cpf.isValido('280012')).toBeFalsy()

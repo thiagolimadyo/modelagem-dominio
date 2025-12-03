@@ -15,4 +15,12 @@ export default class Id {
   static get novo() {
     return new Id()
   }
+
+  igual(outroId: Id): boolean {
+    return this.valor === outroId?.valor
+  }
+
+  diferente(outroId: Id): boolean {
+    return this.valor !== outroId?.valor
+  }
 }

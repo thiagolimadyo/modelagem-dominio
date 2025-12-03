@@ -19,4 +19,24 @@ describe('Testes com Object Value Id', () => {
     expect(novoId.valor).toHaveLength(36)
     expect(novoId.novo).toBeFalsy()
   })
+
+  it('Deve comparar dois ids diferentes', () => {
+    const id1 = Id.novo
+    const id2 = Id.novo
+    expect(id1.diferente(id2)).toBe(true)
+    expect(id1.igual(id2)).toBeFalsy()
+  })
+
+  it('Deve comparar dois ids iguais', () => {
+    const id1 = Id.novo
+    const id2 = new Id(id1.valor)
+    expect(id1.igual(id2)).toBe(true)
+    expect(id1.diferente(id2)).toBeFalsy()
+  })
+
+  it('Deve comparar um id com undefined', () => {
+    const id = Id.novo
+    expect(id.igual(undefined as any)).toBeFalsy()
+    expect(id.diferente(undefined as any)).toBeTruthy()
+  })
 })

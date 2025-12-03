@@ -4,8 +4,8 @@ import Erros from '../constants/Erros'
 export default class Cpf {
   readonly valor: string
 
-  constructor(valor: string) {
-    this.valor = valor.trim().replace(/\D/g, '')
+  constructor(valor?: string) {
+    this.valor = valor?.trim().replace(/\D/g, '') ?? ''
 
     if (!Cpf.isValido(this.valor)) throw new Error(Erros.CPF_INVALIDO)
   }

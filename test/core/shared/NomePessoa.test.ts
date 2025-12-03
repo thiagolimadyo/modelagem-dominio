@@ -5,6 +5,7 @@ import Erros from '../../../src/core/constants/Erros'
 describe('Teste Object Value: NomePessoa.ts', () => {
   it('Deve lançar erro ao tentar criar nome vazio', () => {
     expect(() => new NomePessoa('')).toThrowError(Erros.NOME_VAZIO)
+    expect(() => new NomePessoa()).toThrowError(Erros.NOME_VAZIO)
   })
 
   it('Deve lançar erro ao tentar criar nome menor que 4 caracteres', () => {
