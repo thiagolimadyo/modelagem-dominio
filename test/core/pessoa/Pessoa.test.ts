@@ -43,6 +43,10 @@ describe('Testes com a classe Pessoa', () => {
     const novaPessoa = pessoa.clone({
       id: Id.novo.valor,
     })
+
+    console.log('pessoa:', pessoa)
+    console.log('novaPessoa:', novaPessoa)
+
     expect(pessoa.id.valor !== novaPessoa.id.valor).toBe(true)
     expect(pessoa.id.diferente(novaPessoa.id)).toBe(true)
     expect(pessoa.nome.completo).toBe(novaPessoa.nome.completo)
