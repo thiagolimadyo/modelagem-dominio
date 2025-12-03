@@ -1,4 +1,3 @@
-// import UsuarioAnemicoV1 from '@/core/usuario/UsuarioAnemicoV1'
 import UsuarioAnemicoV1 from '../../../src/core/usuario/UsuarioAnemicoV1'
 import { it, describe, expect } from 'vitest'
 

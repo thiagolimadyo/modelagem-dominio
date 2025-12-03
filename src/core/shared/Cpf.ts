@@ -8,59 +8,37 @@ export default class Cpf {
     this.valor = valor.trim().replace(/\D/g, '')
 
     if (!Cpf.isValido(this.valor)) throw new Error(Erros.CPF_INVALIDO)
+  }
 
-    if (!Cpf.validarDV(this.valor)) throw new Error(Erros.CPF_DV_INVALIDO)
+  get formatado(): string {
+    return this.valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4')
+  }
+
+  get digitoVerificador(): string {
+    return this.valor.slice(9)
   }
 
   static isValido(cpf: string): boolean {
     if (!cpf) return false
-    if (cpf.length !== 11) return false
-    return true
+    const numeros = cpf.trim().replace(/\D/g, '').split('')
+    if (numeros.length !== 11) return false
+
+    const dv1 = this.validarDV(numeros.slice(0, 9), numeros[9])
+    const dv2 = this.validarDV(numeros.slice(1, 10), numeros[10])
+
+    return dv1 && dv2
   }
 
-  private static validarDV(cpf: string): boolean {
-    const cpfNumber = cpf.split('').map(Number)
-    const dv1 = this.calcularDV(cpf.substring(0, 9).split('').map(Number))
-    const dv2 = this.calcularDV(cpf.substring(1, 9).split('').map(Number), dv1)
+  private static validarDV(numeros: string[], dvRecebido: string): boolean {
+    const fatores = [10, 9, 8, 7, 6, 5, 4, 3, 2]
 
-    return dv1 === cpfNumber[9] && dv2 === cpfNumber[10]
-  }
-
-  private static calcularDV(
-    numeros: number[],
-    digitoVerificador?: number
-  ): number {
-    if (digitoVerificador) numeros.push(digitoVerificador)
-    let peso = 10
-
-    const calculo = numeros.reduce((acc, item) => {
-      return acc + item * peso--
+    const calculo = numeros.reduce((total, valor, indice) => {
+      return (total += +valor * fatores[indice])
     }, 0)
 
     const resto = calculo % 11
+    const dvCalculado = resto < 2 ? 0 : 11 - resto
 
-    return resto === (0 | 1) ? 0 : 11 - resto
-  }
-
-  get ArrayNumerico() {
-    return this.valor.split('').map(Number)
-  }
-
-  get formatado() {
-    let posicao1 = this.ArrayNumerico.slice(0, 3).join('')
-    let posicao2 = this.ArrayNumerico.slice(3, 6).join('')
-    let posicao3 = this.ArrayNumerico.slice(6, 9).join('')
-    let posicao4 = this.ArrayNumerico.slice(9, 11).join('')
-
-    return `${posicao1}.${posicao2}.${posicao3}-${posicao4}`
-  }
-
-  get digitoVerificador() {
-    return this.valor.substring(9, 11)
+    return dvCalculado === +dvRecebido
   }
 }
-
-// static isValido(cpf: string): boolean {
-//   const regex = /\d{3}\.?\d{3}\.?\d{3}-?\d{2}/
-//   return regex.test(cpf)
-// }
