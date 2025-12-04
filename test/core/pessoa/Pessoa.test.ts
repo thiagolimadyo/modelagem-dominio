@@ -28,6 +28,9 @@ describe('Testes com a classe Pessoa', () => {
 
     const pessoaAlterada = pessoa.clone({ nome: 'Xuxa da Silva Santos' })
 
+    console.log('pessoa', pessoa)
+    console.log('pessoaAlterada', pessoaAlterada)
+
     expect(pessoaAlterada.id.valor).toBe(pessoa.id.valor)
     expect(pessoaAlterada.id.igual(pessoa.id)).toBe(true)
     expect(pessoaAlterada.cpf.valor).toBe(pessoa.cpf.valor)
@@ -46,6 +49,9 @@ describe('Testes com a classe Pessoa', () => {
 
     console.log('pessoa:', pessoa)
     console.log('novaPessoa:', novaPessoa)
+
+    console.log(novaPessoa.cpf.formatado)
+    console.log(novaPessoa.nome.completo)
 
     expect(pessoa.id.valor !== novaPessoa.id.valor).toBe(true)
     expect(pessoa.id.diferente(novaPessoa.id)).toBe(true)

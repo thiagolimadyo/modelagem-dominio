@@ -17,7 +17,7 @@ export default class Pessoa extends Entidade<PessoaProps> {
     this.cpf = new Cpf(props.cpf)
   }
 
-  clone(novasProps: PessoaProps) {
-    return new Pessoa({ ...this.props, ...novasProps })
-  }
+  // clone(novasProps: PessoaProps) {
+  //   return new Pessoa({ ...this.props, ...novasProps })
+  // }
 }
