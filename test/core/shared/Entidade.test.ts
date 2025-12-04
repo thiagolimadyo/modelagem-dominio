@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import Entidade, { EntidadeProps } from '../../../src/core/shared/Entidade'
-import Id from '../../../src/core/shared/Id'
-import NomePessoa from '../../../src/core/shared/NomePessoa'
+// import Id from '../../../src/core/shared/Id'
+// import NomePessoa from '../../../src/core/shared/NomePessoa'
+import NomePessoa from '@/core/shared/NomePessoa'
+import Id from '@/core/shared/Id'
 
 export interface TesteProps extends EntidadeProps {
   nome?: string
