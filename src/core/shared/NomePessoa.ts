@@ -14,7 +14,7 @@ export default class NomePessoa {
       Validador.naoVazia(this.nome.split(' ')[1], Erros.NOME_SEM_SOBREBOME),
       Validador.regex(
         this.nome,
-        /^[a-zA-ZÀ-ú\s]+$/,
+        /^[a-zA-ZÀ-ú.\s]+$/,
         Erros.NOME_CARACTERES_INVALIDOS
       )
     )

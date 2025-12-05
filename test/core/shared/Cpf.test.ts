@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest'
 import Cpf from '../../../src/core/shared/Cpf'
-import Erros from '../../../src/core/constants/Erros'
+// import Erros from '../../../src/core/constants/Erros'
+import Erros from '@/core/constants/Erros'
 
 const cpfValido = '280.012.389-38'
 const cpfValidoSemFormatacao = '28001238938'

@@ -47,3 +47,5 @@ export default defineConfig({
 
 7. npm i uuid
 8. npm i -D @types/uuid
+9. npm install --D @faker-js/faker
+10. npm i -D gerador-validador-cpf

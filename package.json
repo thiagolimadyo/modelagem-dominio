@@ -22,9 +22,11 @@
   },
   "homepage": "https://github.com/thiagolimadyo/modelagem-dominio#readme",
   "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
     "@types/node": "^24.10.1",
     "@types/uuid": "^10.0.0",
     "@vitest/coverage-v8": "^4.0.14",
+    "gerador-validador-cpf": "^6.3.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"
   },
