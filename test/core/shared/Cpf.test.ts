@@ -46,8 +46,8 @@ describe('Testes do VO Cpf', () => {
   it('Deve retornar a região do CPF', () => {
     const cpf = new Cpf(cpfValido)
 
-    expect(cpf.RegiaoCpf.codigo).toBe(9)
-    expect(cpf.RegiaoCpf.estados[0]).toBe('PR')
-    expect(cpf.RegiaoCpf.estados[1]).toBe('SC')
+    expect(cpf.regiao.codigo).toBe(9)
+    expect(cpf.regiao.estados[0]).toBe('PR')
+    expect(cpf.regiao.estados[1]).toBe('SC')
   })
 })

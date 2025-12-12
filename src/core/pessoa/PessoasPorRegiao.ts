@@ -1,12 +1,12 @@
 import RegiaoCpf from '../shared/RegiaoCpf'
 import Pessoa from './Pessoa'
 
-export class PessoasPorRegiao {
+export default class PessoasPorRegiao {
   constructor(private pessoas: Pessoa[]) {}
 
   agrupar(): Map<RegiaoCpf, Pessoa[]> {
     return this.pessoas.reduce((map, pessoa) => {
-      const regiao = pessoa.cpf.RegiaoCpf
+      const regiao = pessoa.cpf.regiao
 
       const pessoasDaRegiao = map.get(regiao) ?? []
       pessoasDaRegiao.push(pessoa)

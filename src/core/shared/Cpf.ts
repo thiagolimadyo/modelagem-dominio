@@ -4,21 +4,18 @@ import RegiaoCpf from './RegiaoCpf'
 
 export default class Cpf {
   readonly valor: string
-  // readonly regiaoFiscal: RegiaoCpf
 
   constructor(valor?: string) {
     this.valor = valor?.trim().replace(/\D/g, '') ?? ''
 
     if (!Cpf.isValido(this.valor)) throw new Error(Erros.CPF_INVALIDO)
-
-    // this.regiaoFiscal = RegiaoCpf.porCpf(this.valor)
   }
 
   get formatado(): string {
     return this.valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4')
   }
 
-  get RegiaoCpf(): RegiaoCpf {
+  get regiao(): RegiaoCpf {
     return RegiaoCpf.porCpf(this.valor)
   }
 
