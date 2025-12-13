@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/test/*": ["./test/*"],
+      "@/*": ["./src/*"]
+    },
+
+    "outDir": "./dist",
+    "declaration": false
+  },
+  "include": ["src", "test"]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ead",
+  "version": "1.0.0",
+  "description": "Curso de Modelagem de Domínio - Formacao.DEV",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --coverage",
+    "test:watch": "vitest --watch --coverage",
+    "dev": "node --watch src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagolimadyo/modelagem-dominio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/thiagolimadyo/modelagem-dominio/issues"
+  },
+  "homepage": "https://github.com/thiagolimadyo/modelagem-dominio#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "@types/node": "^24.10.1",
+    "@types/uuid": "^10.0.0",
+    "@vitest/coverage-v8": "^4.0.14",
+    "gerador-validador-cpf": "^6.3.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "uuid": "^13.0.0"
+  }
+}
