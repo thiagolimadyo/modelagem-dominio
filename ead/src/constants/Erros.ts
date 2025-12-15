@@ -2,6 +2,7 @@ const Erros = {
   DESCONHECIDO: 'DESCONHECIDO',
   EMAIL_INVALIDO: 'EMAIL_INVALIDO',
   NOME_PEQUENO: 'NOME_PEQUENO',
+  ID_INVALIDO: 'ID_INVALIDO',
 } as const
 
 export default Erros
