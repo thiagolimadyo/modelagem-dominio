@@ -1,0 +1,26 @@
+import Erros from '@/constants/Erros'
+import ErroValidacao from '@/error/ErroValidacao'
+
+export default class Email {
+  static readonly regex =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  readonly valor: string
+
+  constructor(email?: string) {
+    this.valor = email?.trim() ?? ''
+
+    if (!Email.isValido(this.valor)) ErroValidacao.lancar(Erros.EMAIL_INVALIDO)
+  }
+
+  get usuario(): string {
+    return this.valor.split('@')[0]
+  }
+
+  get dominio(): string {
+    return this.valor.split('@')[1]
+  }
+
+  static isValido(email: string): boolean {
+    return Email.regex.test(email)
+  }
+}

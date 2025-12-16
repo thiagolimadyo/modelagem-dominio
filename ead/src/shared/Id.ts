@@ -1,4 +1,5 @@
 import Erros from '@/constants/Erros'
+import ErroValidacao from '@/error/ErroValidacao'
 import { v4 as uuid, validate } from 'uuid'
 
 export default class Id {
@@ -9,7 +10,8 @@ export default class Id {
     this.valor = valor ?? uuid()
     this.novo = !valor
 
-    if (!validate(this.valor)) throw new Error(Erros.ID_INVALIDO)
+    // if (!validate(this.valor)) throw new Error(Erros.ID_INVALIDO)
+    if (!validate(this.valor)) ErroValidacao.lancar(Erros.ID_INVALIDO)
   }
 
   static get novo() {
