@@ -7,6 +7,7 @@ const Erros = {
   NOME_PEQUENO: 'NOME_PEQUENO',
   NOME_SEM_SOBRENOME: 'NOME_SEM_SOBRENOME',
   NOME_VAZIO: 'NOME_VAZIO',
+  SENHA_FRACA: 'SENHA_FRACA',
 } as const
 
 export default Erros

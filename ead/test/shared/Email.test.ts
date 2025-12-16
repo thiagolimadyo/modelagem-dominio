@@ -18,7 +18,10 @@ describe('Testes no Objeto de Valor Email', () => {
   })
 
   it('Deve retornar erro de e-mail inválido', () => {
-    expect(() => new Email('x')).toThrowError(Erros.EMAIL_INVALIDO)
+    expect(() => new Email()).toThrowError(Erros.EMAIL_INVALIDO)
+    expect(() => new Email('')).toThrowError(Erros.EMAIL_INVALIDO)
+    expect(() => new Email('xuxa')).toThrowError(Erros.EMAIL_INVALIDO)
+    expect(() => new Email('xuxa@micron')).toThrowError(Erros.EMAIL_INVALIDO)
   })
 
   it('Deve retornar erro com e-mail em branco', () => {
