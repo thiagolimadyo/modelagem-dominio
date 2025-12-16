@@ -5,8 +5,9 @@ export default class SenhaForte {
   static readonly REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
 
-  constructor(readonly valor: string) {
-    if (!SenhaForte.isValid(this.valor)) ErroValidacao.lancar(Erros.SENHA_FRACA)
+  constructor(readonly valor?: string) {
+    if (!SenhaForte.isValid(this.valor ?? ''))
+      ErroValidacao.lancar(Erros.SENHA_FRACA)
   }
 
   static isValid(senha: string): boolean {

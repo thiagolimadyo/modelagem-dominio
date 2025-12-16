@@ -19,8 +19,12 @@ describe('Testes no Objeto de Valor SenhaForte', () => {
     expect(() => new SenhaForte('Aab10(*')).toThrowError(Erros.SENHA_FRACA)
   })
 
+  it('Deve lançar erro com senha em branco', () => {
+    expect(() => new SenhaForte()).toThrowError(Erros.SENHA_FRACA)
+  })
+
   it('Deve criar uma senha forte', () => {
     const senhaForte = new SenhaForte('Ab10()-*$%')
-    expect(SenhaForte.isValid(senhaForte.valor)).toBeTruthy()
+    expect(SenhaForte.isValid(senhaForte.valor ?? '')).toBeTruthy()
   })
 })
