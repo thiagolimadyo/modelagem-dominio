@@ -21,6 +21,7 @@ describe('Testes no Objeto de Valor SenhaForte', () => {
 
   it('Deve lançar erro com senha em branco', () => {
     expect(() => new SenhaForte()).toThrowError(Erros.SENHA_FRACA)
+    expect(() => new SenhaForte('')).toThrowError(Erros.SENHA_FRACA)
   })
 
   it('Deve criar uma senha forte', () => {
