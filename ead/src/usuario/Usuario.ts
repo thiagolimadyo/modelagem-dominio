@@ -1,7 +1,7 @@
 import Email from '@/shared/Email'
 import Entidade, { EntidadeProps } from '@/shared/Entidade'
 import NomePessoa from '@/shared/NomePessoa'
-import SenhaForte from '@/shared/SenhaForte'
+import SenhaHash from '@/shared/SenhaHash'
 
 export interface UsuarioProps extends EntidadeProps {
   nome?: string
@@ -12,13 +12,13 @@ export interface UsuarioProps extends EntidadeProps {
 export default class Usuario extends Entidade<UsuarioProps> {
   readonly nome: NomePessoa
   readonly email: Email
-  readonly senha?: SenhaForte
+  readonly senha?: SenhaHash
 
   constructor(props: UsuarioProps) {
     super(props)
 
     this.nome = new NomePessoa(props.nome)
     this.email = new Email(props.email)
-    if (props.senha) this.senha = new SenhaForte(props.senha)
+    if (props.senha) this.senha = new SenhaHash(props.senha)
   }
 }
