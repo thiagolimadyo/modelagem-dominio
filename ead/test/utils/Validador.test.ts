@@ -42,6 +42,15 @@ describe('Testes do Validador.ts', () => {
     expect(erro?.codigo).toBe(msgErro)
   })
 
+  it('Deve retornar null com texto menor ou igual que tamanho máximo permitido', () => {
+    expect(Validador.tamanhoMenorQueOuIgual('Xuxa', 4, msgErro)).toBeNull()
+  })
+
+  it('Deve retornar erro com texto maior que ou igual o tamanho máximo permitido', () => {
+    const erro = Validador.tamanhoMenorQueOuIgual('Xuxaa', 4, msgErro)
+    expect(erro?.codigo).toBe(msgErro)
+  })
+
   it('Deve retornar null com texto maior que tamanho mínimo permitido', () => {
     const erro = Validador.tamanhoMaiorQue('Xuxa da Silva', 6, msgErro)
     expect(erro).toBeNull()
@@ -49,6 +58,16 @@ describe('Testes do Validador.ts', () => {
 
   it('Deve retornar erro com texto menor que tamanho mínimo permitido', () => {
     const erro = Validador.tamanhoMaiorQue('Xuxa', 6, msgErro)
+    expect(erro?.codigo).toBe(msgErro)
+  })
+
+  it('Deve retornar null com texto maior ou igual que tamanho mínimo permitido', () => {
+    const erro = Validador.tamanhoMaiorQueOuIgual('Xuxa da Silva', 13, msgErro)
+    expect(erro).toBeNull()
+  })
+
+  it('Deve retornar erro com texto menor que tamanho mínimo permitido', () => {
+    const erro = Validador.tamanhoMaiorQueOuIgual('Xuxa', 13, msgErro)
     expect(erro?.codigo).toBe(msgErro)
   })
 
