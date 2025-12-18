@@ -10,7 +10,6 @@ export default class Id {
     this.valor = valor ?? uuid()
     this.novo = !valor
 
-    // if (!validate(this.valor)) throw new Error(Erros.ID_INVALIDO)
     if (!validate(this.valor)) ErroValidacao.lancar(Erros.ID_INVALIDO)
   }
 
