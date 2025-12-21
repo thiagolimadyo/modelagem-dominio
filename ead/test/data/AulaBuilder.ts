@@ -5,16 +5,23 @@ import { faker } from '@faker-js/faker'
 export default class AulaBuilder {
   private constructor(private props: AulaProps) {}
 
-  static get criar(): AulaBuilder {
+  static criar(nome?: string): AulaBuilder {
     return new AulaBuilder({
-      nome: NomeAula.aleatorio,
+      nome: nome ?? NomeAula.aleatorio,
       duracao: faker.number.int({ min: 90, max: 3600 }),
       ordem: faker.number.int({ min: 1, max: 100 }),
       videoUrl: faker.internet.url(),
     })
   }
 
-  get agora() {
+  static criarListaCom(qtde: number): Aula[] {
+    const lista = Array.from({ length: qtde }).map(() =>
+      AulaBuilder.criar().agora()
+    )
+    return lista
+  }
+
+  agora() {
     return new Aula(this.props)
   }
 
@@ -28,7 +35,7 @@ export default class AulaBuilder {
     return this
   }
 
-  get semNome(): AulaBuilder {
+  semNome(): AulaBuilder {
     this.props.nome = undefined
     return this
   }
@@ -38,7 +45,7 @@ export default class AulaBuilder {
     return this
   }
 
-  get semDuracao(): AulaBuilder {
+  semDuracao(): AulaBuilder {
     this.props.duracao = undefined
     return this
   }
@@ -48,7 +55,7 @@ export default class AulaBuilder {
     return this
   }
 
-  get semOrdem(): AulaBuilder {
+  semOrdem(): AulaBuilder {
     this.props.ordem = undefined
     return this
   }
@@ -58,7 +65,7 @@ export default class AulaBuilder {
     return this
   }
 
-  get semVideoUrl(): AulaBuilder {
+  semVideoUrl(): AulaBuilder {
     this.props.videoUrl = undefined
     return this
   }
