@@ -1,5 +1,5 @@
 import Usuario, { UsuarioProps } from '@/usuario/Usuario'
-import { Faker, faker, base, pt_BR } from '@faker-js/faker'
+import { Faker, base, pt_BR } from '@faker-js/faker'
 
 const fakerBR = new Faker({
   locale: [pt_BR, base],
