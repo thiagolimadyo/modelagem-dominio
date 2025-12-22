@@ -28,6 +28,18 @@ export default class Capitulo extends Entidade<CapituloProps> {
     this.aulas = props.aulas.map((aula) => new Aula(aula))
   }
 
+  get quantidadeDeAulas(): number {
+    return this.aulas.length
+  }
+
+  get primeiraAula(): Aula {
+    return this.aulas[0]
+  }
+
+  get ultimaAula(): Aula {
+    return this.aulas[this.quantidadeDeAulas - 1]
+  }
+
   get duracao(): Duracao {
     return this.aulas.reduce(
       (duracaoTotal: Duracao, aula: Aula) => duracaoTotal.somar(aula.duracao),
