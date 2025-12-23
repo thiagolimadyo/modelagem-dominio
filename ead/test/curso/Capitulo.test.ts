@@ -3,6 +3,7 @@ import CapituloBuilder from '../data/CapituloBuilder'
 import Erros from '@/constants/Erros'
 import AulaBuilder from '../data/AulaBuilder'
 import Ordem from '@/shared/Ordem'
+import Capitulo from '@/curso/Capitulo'
 
 describe('Testes com a Entidade Capitulo.ts', () => {
   it('Deve lançar erro para Capítulo sem Nome', () => {
@@ -52,12 +53,30 @@ describe('Testes com a Entidade Capitulo.ts', () => {
       AulaBuilder.criar('Aula #1').semOrdem().comDuracao(63).agora(),
       AulaBuilder.criar('Aula #2').semOrdem().comDuracao(1007).agora(),
       AulaBuilder.criar('Aula #3').semOrdem().comDuracao(3784).agora(),
+      AulaBuilder.criar('Aula#100').comOrdem(100).comDuracao(3784).agora(),
+      AulaBuilder.criar('Aula #11').comOrdem(11).comDuracao(3784).agora(),
     ]
 
     const capitulo = CapituloBuilder.criar().comAulas(aulas).agora()
 
+    capitulo.aulas.map((aula) => console.log(aula.toJson))
     expect(capitulo.aulas[0].ordem.valor).toBe(1)
     expect(capitulo.aulas[1].ordem.valor).toBe(2)
     expect(capitulo.aulas[2].ordem.valor).toBe(3)
+  })
+
+  it('Deve devolver a quantidade de aulas do caíputulo', () => {
+    const capitulo = CapituloBuilder.criar(10).agora()
+    expect(capitulo.quantidadeDeAulas).toBe(10)
+  })
+
+  it('Deve devolver a última aulas do caíputulo', () => {
+    const capitulo = CapituloBuilder.criar(10).agora()
+    expect(capitulo.ultimaAula.ordem.valor).toBe(10)
+  })
+
+  it('Deve devolver a primeira aulas do caíputulo', () => {
+    const capitulo = CapituloBuilder.criar(10).agora()
+    expect(capitulo.primeiraAula.ordem.valor).toBe(1)
   })
 })

@@ -18,14 +18,18 @@ export default class Capitulo extends Entidade<CapituloProps> {
   readonly aulas: Aula[]
 
   constructor(props: CapituloProps) {
-    super(props)
+    super({
+      ...props,
+      aulas: props.aulas ? Capitulo.reordenarAulas(props.aulas) : [],
+    })
 
     this.nome = new NomeSimples(props.nome!, 3, 50)
     this.ordem = new Ordem(props.ordem)
 
-    if (!props.aulas) ErroValidacao.lancar(Erros.CAPITULO_SEM_AULAS)
+    if (!this.props.aulas?.length)
+      ErroValidacao.lancar(Erros.CAPITULO_SEM_AULAS)
 
-    this.aulas = props.aulas.map((aula) => new Aula(aula))
+    this.aulas = this.props.aulas.map((aula) => new Aula(aula))
   }
 
   get quantidadeDeAulas(): number {
@@ -45,5 +49,15 @@ export default class Capitulo extends Entidade<CapituloProps> {
       (duracaoTotal: Duracao, aula: Aula) => duracaoTotal.somar(aula.duracao),
       new Duracao(0)
     )
+  }
+
+  private static reordenarAulas(aulasProps: AulaProps[]): AulaProps[] {
+    const aulas = aulasProps.map((aulaProps) => new Aula(aulaProps))
+    const aulasOrdenadas = aulas.sort(Ordem.ordenar)
+    return Capitulo.reatribuirOrdens(aulasOrdenadas).map((aula) => aula.props)
+  }
+
+  private static reatribuirOrdens(aulas: Aula[]): Aula[] {
+    return aulas.map((aula, i) => aula.clone({ ordem: i + 1 }))
   }
 }
