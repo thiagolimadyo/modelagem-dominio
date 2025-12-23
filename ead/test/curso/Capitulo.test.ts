@@ -70,13 +70,60 @@ describe('Testes com a Entidade Capitulo.ts', () => {
     expect(capitulo.quantidadeDeAulas).toBe(10)
   })
 
-  it('Deve devolver a última aulas do caíputulo', () => {
-    const capitulo = CapituloBuilder.criar(10).agora()
-    expect(capitulo.ultimaAula.ordem.valor).toBe(10)
+  it('Deve devolver a primeira e a última aula do capítulo', () => {
+    const aulas = [
+      AulaBuilder.criar('Aula #2').comOrdem(2).agora(),
+      AulaBuilder.criar('Aula #3').comOrdem(3).agora(),
+      AulaBuilder.criar('Aula #1').comOrdem(1).agora(),
+    ]
+
+    const capitulo = CapituloBuilder.criar().comAulas(aulas).agora()
+    expect(capitulo.primeiraAula.nome.completo).toBe('Aula #1')
+    expect(capitulo.primeiraAula.ordem.valor).toBe(1)
+    expect(capitulo.ultimaAula.nome.completo).toBe('Aula #3')
+    expect(capitulo.ultimaAula.ordem.valor).toBe(3)
+
+    capitulo.aulas.map((aula) => console.log(aula.toJson))
   })
 
-  it('Deve devolver a primeira aulas do caíputulo', () => {
-    const capitulo = CapituloBuilder.criar(10).agora()
-    expect(capitulo.primeiraAula.ordem.valor).toBe(1)
+  it('Deve adicionar uma nova aula', () => {
+    const capitulo = CapituloBuilder.criar(3).agora()
+    const novaAula = AulaBuilder.criar('#NovaAula').agora()
+    const novoCapitulo = capitulo.adicionarAula(novaAula)
+    expect(novoCapitulo.ultimaAula.nome.completo).toBe(novaAula.nome.completo)
+    expect(novoCapitulo.quantidadeDeAulas).toBe(4)
+  })
+
+  it('Deve adicionar uma nova Aula no início do Capítulo', () => {
+    const capitulo = CapituloBuilder.criar(3).agora()
+    const novaAula = AulaBuilder.criar('#NovaAula').agora()
+    const novoCapitulo = capitulo.adicionarAula(novaAula, 0)
+    expect(novoCapitulo.primeiraAula.nome.completo).toBe(novaAula.nome.completo)
+    expect(novoCapitulo.quantidadeDeAulas).toBe(4)
+  })
+
+  it('Deve remover uma Aula do Capítulo', () => {
+    const capitulo = CapituloBuilder.criar(4).agora()
+    const segundaAula = capitulo.aulas[1]
+    const novoCapitulo = capitulo.removerAula(segundaAula)
+    expect(novoCapitulo.quantidadeDeAulas).toBe(3)
+  })
+
+  it('Deve mover uma aula para uma nova posição', () => {
+    const aulas = [
+      AulaBuilder.criar('#Aula1').comOrdem(1).agora(),
+      AulaBuilder.criar('#Aula2').comOrdem(2).agora(),
+      AulaBuilder.criar('#Aula3').comOrdem(3).agora(),
+      AulaBuilder.criar('#Aula4').comOrdem(4).agora(),
+      AulaBuilder.criar('#Aula5').comOrdem(5).agora(),
+      AulaBuilder.criar('#Aula6').comOrdem(6).agora(),
+    ]
+
+    const capitulo = CapituloBuilder.criar().comAulas(aulas).agora()
+    const aula3 = capitulo.aulas[2]
+
+    const novoCapitulo = capitulo.moverAula(aula3, 0)
+
+    novoCapitulo.aulas.map((a) => console.log(a.toJson))
   })
 })

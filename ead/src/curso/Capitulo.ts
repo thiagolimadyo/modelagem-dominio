@@ -32,6 +32,33 @@ export default class Capitulo extends Entidade<CapituloProps> {
     this.aulas = this.props.aulas.map((aula) => new Aula(aula))
   }
 
+  moverAula(selecionada: Aula, posicao: number): Capitulo {
+    return this.removerAula(selecionada).adicionarAula(selecionada, posicao)
+  }
+
+  removerAula(selecionada: Aula): Capitulo {
+    const novasAulas = this.aulas.filter((aula) => aula.diferente(selecionada))
+
+    const aulas = Capitulo.reatribuirOrdens(novasAulas).map(
+      (aula) => aula.props
+    )
+
+    return this.clone({ aulas })
+  }
+
+  adicionarAula(aula: Aula, posicao?: number): Capitulo {
+    const novasAulas =
+      posicao !== undefined
+        ? [...this.aulas.slice(0, posicao), aula, ...this.aulas.slice(posicao)]
+        : [...this.aulas, aula]
+
+    const aulas = Capitulo.reatribuirOrdens(novasAulas).map(
+      (aula) => aula.props
+    )
+
+    return this.clone({ aulas })
+  }
+
   get quantidadeDeAulas(): number {
     return this.aulas.length
   }
@@ -58,6 +85,8 @@ export default class Capitulo extends Entidade<CapituloProps> {
   }
 
   private static reatribuirOrdens(aulas: Aula[]): Aula[] {
+    // aulas.map((aula) => aula.toJson)
+
     return aulas.map((aula, i) => aula.clone({ ordem: i + 1 }))
   }
 }
