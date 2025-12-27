@@ -141,4 +141,42 @@ describe('Testes da Entidade Curso', () => {
       capitulo.nome.completo
     )
   })
+
+  it('Deve remover um capítulo', () => {
+    const curso = CursoBuilder.criar(3, 10).agora()
+    const capitulo2 = curso.capitulos[1]
+    const novoCurso = curso.removerCapitulo(capitulo2)
+    expect(novoCurso.capitulos.length).toBe(curso.capitulos.length - 1)
+    expect(novoCurso.quantidadeDeAulas).toBe(20)
+  })
+
+  it('Deve mover capítulo uma posição para baixo', () => {
+    const curso = CursoBuilder.criar(3, 10).agora()
+    const capitulo2 = curso.capitulos[1]
+    const novoCurso = curso.moverCapituloParaBaixo(capitulo2)
+    expect(novoCurso.capitulos[2].nome.completo).toBe(capitulo2.nome.completo)
+  })
+
+  it('Deve mover capítulo uma posição para cima', () => {
+    const curso = CursoBuilder.criar(3, 10).agora()
+    const capitulo2 = curso.capitulos[1]
+    const novoCurso = curso.moverCapituloParaCima(capitulo2)
+    expect(novoCurso.primeiroCapitulo.nome.completo).toBe(
+      capitulo2.nome.completo
+    )
+  })
+
+  it('Deve ignorar quando mover o primeiro capítulo para cima', () => {
+    const curso = CursoBuilder.criar(3, 10).agora()
+    const capitulo1 = curso.capitulos[0]
+    const novoCurso = curso.moverCapituloParaCima(capitulo1)
+    expect(novoCurso.capitulos[0].nome.completo).toBe(capitulo1.nome.completo)
+  })
+
+  it('Deve ignorar quando mover o primeiro capítulo para baixoi', () => {
+    const curso = CursoBuilder.criar(3, 10).agora()
+    const capitulo3 = curso.capitulos[2]
+    const novoCurso = curso.moverCapituloParaBaixo(capitulo3)
+    expect(novoCurso.capitulos[2].nome.completo).toBe(capitulo3.nome.completo)
+  })
 })

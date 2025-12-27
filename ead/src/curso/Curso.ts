@@ -63,15 +63,24 @@ export default class Curso extends Entidade<CursoProps> {
     return { duracao, quantidadeDeAulas }
   }
 
-  // adicionarCapitulo(capitulo: Capitulo, posicao?: number): Curso {
-  //   const atuais = this.capitulos
-  //   const novosCapitulos =
-  //     posicao !== undefined
-  //       ? [...atuais.slice(0, posicao), capitulo, ...atuais.slice(posicao)]
-  //       : [...atuais, capitulo]
-  //   const capitulos = Curso.reatribuirOrdens(novosCapitulos).map((a) => a.props)
-  //   return this.clone({ capitulos })
-  // }
+  moverCapitulo(selecionado: Capitulo, posicao: number): Curso {
+    return (
+      this.removerCapitulo(selecionado),
+      this.adicionarCapitulo(selecionado, posicao)
+    )
+  }
+
+  moverCapituloParaCima(selecionado: Capitulo): Curso {
+    const posicao = this.capitulos.findIndex((c) => c.igual(selecionado))
+    const primeiraPosicao = posicao === 0
+    return primeiraPosicao ? this : this.moverCapitulo(selecionado, posicao - 1)
+  }
+
+  moverCapituloParaBaixo(selecionado: Capitulo): Curso {
+    const posicao = this.capitulos.findIndex((c) => c.igual(selecionado))
+    const pultimaPosicao = posicao === this.capitulos.length - 1
+    return pultimaPosicao ? this : this.moverCapitulo(selecionado, posicao + 1)
+  }
 
   adicionarCapitulo(capitulo: Capitulo, posicao?: number): Curso {
     const atuais = this.capitulos
@@ -82,6 +91,18 @@ export default class Curso extends Entidade<CursoProps> {
         : [...atuais, capitulo]
 
     const capitulos = Curso.reatribuirOrdens(novosCapitulos).map((c) => c.props)
+
+    return this.clone({ capitulos })
+  }
+
+  removerCapitulo(selecionado: Capitulo): Curso {
+    const capitulosRestantes = this.capitulos.filter((c) =>
+      c.diferente(selecionado)
+    )
+
+    const capitulos = Curso.reatribuirOrdens(capitulosRestantes).map(
+      (c) => c.props
+    )
 
     return this.clone({ capitulos })
   }
