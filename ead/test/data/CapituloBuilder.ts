@@ -16,6 +16,14 @@ export default class CapituloBuilder {
     })
   }
 
+  static criarListaCom(qtdeCapitulos: number, qtdeAulas: number): Capitulo[] {
+    return Array.from({ length: qtdeCapitulos }).map((_, indice) => {
+      return CapituloBuilder.criar(qtdeAulas)
+        .comOrdem(indice + 1)
+        .agora()
+    })
+  }
+
   comId(id: string): CapituloBuilder {
     this.props.id = id
     return this

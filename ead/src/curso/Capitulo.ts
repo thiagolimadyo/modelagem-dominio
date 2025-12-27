@@ -97,8 +97,6 @@ export default class Capitulo extends Entidade<CapituloProps> {
   }
 
   private static reatribuirOrdens(aulas: Aula[]): Aula[] {
-    // aulas.map((aula) => aula.toJson)
-
     return aulas.map((aula, i) => aula.clone({ ordem: i + 1 }))
   }
 }
