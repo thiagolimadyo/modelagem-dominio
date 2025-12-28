@@ -1,0 +1,56 @@
+import Erros from '@/constants/Erros'
+import ErroValidacao from '@/error/ErroValidacao'
+import Duracao from '@/shared/Duracao'
+import Entidade, { EntidadeProps } from '@/shared/Entidade'
+import NomeSimples from '@/shared/NomeSimples'
+
+export interface ProgressoAulaProps extends EntidadeProps {
+  nome?: string
+  duracao?: number
+  dataInicio?: Date
+  dataConclusao?: Date
+}
+
+export default class ProgressoAula extends Entidade<ProgressoAulaProps> {
+  readonly nome: NomeSimples
+  readonly duracao: Duracao
+  readonly dataInicio?: Date
+  readonly dataConclusao?: Date
+
+  constructor(props: ProgressoAulaProps) {
+    super(props)
+
+    this.nome = new NomeSimples(props.nome!, 3, 50)
+    this.duracao = new Duracao(props.duracao)
+    this.dataInicio = props.dataInicio
+    this.dataConclusao = props.dataConclusao
+
+    if (!props.id) {
+      ErroValidacao.lancar(Erros.ID_INVALIDO, props.id)
+    }
+
+    if (this.duracao.zerada) {
+      ErroValidacao.lancar(Erros.DURACAO_ZERADA)
+    }
+  }
+
+  get iniciado() {
+    return this.dataInicio != null
+  }
+
+  get concluido() {
+    return this.dataConclusao != null
+  }
+
+  iniciar() {
+    return this.clone({ dataInicio: new Date() })
+  }
+
+  concluir() {
+    return this.clone({ dataConclusao: new Date() })
+  }
+
+  zerar() {
+    return this.clone({ dataConclusao: undefined })
+  }
+}

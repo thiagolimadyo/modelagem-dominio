@@ -59,7 +59,7 @@ describe('Testes com a Entidade Capitulo.ts', () => {
 
     const capitulo = CapituloBuilder.criar().comAulas(aulas).agora()
 
-    capitulo.aulas.map((aula) => console.log(aula.toJson))
+    // capitulo.aulas.map((aula) => console.log(aula.toJson))
     expect(capitulo.aulas[0].ordem.valor).toBe(1)
     expect(capitulo.aulas[1].ordem.valor).toBe(2)
     expect(capitulo.aulas[2].ordem.valor).toBe(3)
@@ -83,7 +83,7 @@ describe('Testes com a Entidade Capitulo.ts', () => {
     expect(capitulo.ultimaAula.nome.completo).toBe('Aula #3')
     expect(capitulo.ultimaAula.ordem.valor).toBe(3)
 
-    capitulo.aulas.map((aula) => console.log(aula.toJson))
+    // capitulo.aulas.map((aula) => console.log(aula.toJson))
   })
 
   it('Deve adicionar uma nova aula', () => {
@@ -124,7 +124,7 @@ describe('Testes com a Entidade Capitulo.ts', () => {
 
     const novoCapitulo = capitulo.moverAula(aula3, 0)
 
-    novoCapitulo.aulas.map((a) => console.log(a.toJson))
+    // novoCapitulo.aulas.map((a) => console.log(a.toJson))
   })
 
   it('Deve mover uma aula para cima', () => {
@@ -160,7 +160,7 @@ describe('Testes com a Entidade Capitulo.ts', () => {
     expect(capitulo.aulas[2].nome.completo).toBe(aula1.nome.completo)
     capitulo = capitulo.moverAulaParaBaixo(aula1)
 
-    capitulo.aulas.map((a) => console.log(a.toJson))
+    // capitulo.aulas.map((a) => console.log(a.toJson))
   })
 
   it('Deve ignorar quando mover a primeira aula para cima', () => {

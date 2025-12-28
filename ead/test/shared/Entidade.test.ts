@@ -63,7 +63,7 @@ describe('Testes com a classe base Abstrada Entidade', () => {
     const pessoa1 = new Pessoa({ nome: 'Xuxa da Silva', idade: 40 })
     const pessoa2 = pessoa1.clone({ id: uuidValido })
 
-    console.log(pessoa1.nome, pessoa2.nome)
+    // console.log(pessoa1.nome, pessoa2.nome)
     expect(pessoa1.diferente(pessoa2)).toBeTruthy()
     expect(pessoa1?.nome?.completo === pessoa2?.nome?.completo).toBeTruthy()
   })

@@ -19,6 +19,9 @@ export default class Usuario extends Entidade<UsuarioProps> {
 
     this.nome = new NomePessoa(props.nome)
     this.email = new Email(props.email)
-    if (props.senha) this.senha = new SenhaHash(props.senha)
+
+    if (props.senha) {
+      this.senha = new SenhaHash(props.senha)
+    }
   }
 }

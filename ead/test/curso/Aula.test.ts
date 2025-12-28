@@ -12,7 +12,7 @@ describe('Testes na entidade Aula.ts', () => {
   it('Deve criar uma Aula válida', () => {
     const aula = AulaBuilder.criar().agora()
 
-    console.log(aula.toJson)
+    // console.log(aula.toJson)
     expect(aula).toBeDefined()
   })
 
