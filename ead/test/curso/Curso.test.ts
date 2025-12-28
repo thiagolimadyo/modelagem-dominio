@@ -179,4 +179,12 @@ describe('Testes da Entidade Curso', () => {
     const novoCurso = curso.moverCapituloParaBaixo(capitulo3)
     expect(novoCurso.capitulos[2].nome.completo).toBe(capitulo3.nome.completo)
   })
+
+  it('Deve atualizar aula no curso', () => {
+    const curso = CursoBuilder.criar(2, 2).agora()
+    const aula1cap1 = curso.primeiroCapitulo.primeiraAula
+    const novoCurso = curso.atualizarAula(aula1cap1.clone({ duracao: 10000 }))
+    expect(novoCurso.aulas[0].nome.completo).toBe(aula1cap1.nome.completo)
+    expect(novoCurso.aulas[0].duracao.segundos).toBe(10000)
+  })
 })

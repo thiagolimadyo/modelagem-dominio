@@ -5,6 +5,7 @@ import Duracao from '@/shared/Duracao'
 import Ordem from '@/shared/Ordem'
 import ErroValidacao from '@/error/ErroValidacao'
 import Erros from '@/constants/Erros'
+import Aula from './Aula'
 
 export interface CursoProps extends EntidadeProps {
   nome?: string
@@ -84,27 +85,35 @@ export default class Curso extends Entidade<CursoProps> {
 
   adicionarCapitulo(capitulo: Capitulo, posicao?: number): Curso {
     const atuais = this.capitulos
-
     const novosCapitulos =
       posicao !== undefined
         ? [...atuais.slice(0, posicao), capitulo, ...atuais.slice(posicao)]
         : [...atuais, capitulo]
-
     const capitulos = Curso.reatribuirOrdens(novosCapitulos).map((c) => c.props)
 
     return this.clone({ capitulos })
   }
 
   removerCapitulo(selecionado: Capitulo): Curso {
-    const capitulosRestantes = this.capitulos.filter((c) =>
-      c.diferente(selecionado)
-    )
-
-    const capitulos = Curso.reatribuirOrdens(capitulosRestantes).map(
-      (c) => c.props
-    )
+    const outros = this.capitulos.filter((c) => c.diferente(selecionado))
+    const capitulos = Curso.reatribuirOrdens(outros).map((c) => c.props)
 
     return this.clone({ capitulos })
+  }
+
+  atualizarAula(selecionada: Aula): Curso {
+    const capitulos: CapituloProps[] = this.capitulos.map((c) => {
+      const aulas = c.aulas.map((a) =>
+        a.igual(selecionada) ? selecionada.props : a.props
+      )
+      return { ...c.props, aulas }
+    })
+
+    return this.clone({ capitulos })
+  }
+
+  get aulas() {
+    return this.capitulos.flatMap((c) => c.aulas)
   }
 
   get primeiroCapitulo() {
@@ -119,7 +128,6 @@ export default class Curso extends Entidade<CursoProps> {
     capitulosProps: CapituloProps[]
   ): CapituloProps[] {
     const capitulos = capitulosProps.map((c) => new Capitulo(c))
-
     const capitulosOrdenados = capitulos.sort(Ordem.ordenar)
 
     return Curso.reatribuirOrdens(capitulosOrdenados).map((c) => c.props)
