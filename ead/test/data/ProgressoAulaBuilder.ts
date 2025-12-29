@@ -20,6 +20,12 @@ export default class ProgressoAulaBuilder {
     })
   }
 
+  static criarListaCom(qtde: number = 10): ProgressoAula[] {
+    return Array.from({ length: qtde }).map(() => {
+      return ProgressoAulaBuilder.criar().agora()
+    })
+  }
+
   agora(): ProgressoAula {
     return new ProgressoAula(this.props)
   }

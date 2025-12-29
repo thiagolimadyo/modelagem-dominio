@@ -4,6 +4,7 @@ import Email from '@/shared/Email'
 import NomeSimples from '@/shared/NomeSimples'
 import ErroValidacao from '@/error/ErroValidacao'
 import Erros from '@/constants/Erros'
+import Duracao from '@/shared/Duracao'
 
 export interface ProgressoCursoProps extends EntidadeProps {
   emailUsuario?: string
@@ -39,19 +40,93 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
       this.aulas[0]
   }
 
-  get concluido() {
-    return
+  concluirCurso(): ProgressoCurso {
+    if (this.concluido) return this
+    const aulas = this.aulas.map((a) => a.concluir().props)
+    return this.clone({ aulas, data: new Date() })
   }
 
-  get duracaoTotal() {
-    return
+  iniciarAulaAtual(): ProgressoCurso {
+    return this.iniciarAula(this.aulaSelecionada.id.valor)
   }
 
-  get duracaoAssistida() {
-    return
+  concluirAulaAtual(): ProgressoCurso {
+    return this.concluirAula(this.aulaSelecionada.id.valor)
   }
 
-  get percentualAssistido() {
-    return
+  selecionarAula(aulaId: string): ProgressoCurso {
+    return this.clone({ aulaSelecionadaId: aulaId, data: new Date() })
+  }
+
+  selecionarProximaAula(): ProgressoCurso {
+    const aulaAtual = this.aulas.indexOf(this.aulaSelecionada)
+    const proximaAula = this.aulas[aulaAtual + 1]
+    return proximaAula ? this.selecionarAula(proximaAula.id.valor) : this
+  }
+
+  concluirESelecionarProximaAula(): ProgressoCurso {
+    return this.concluirAulaAtual().selecionarProximaAula()
+  }
+
+  iniciarAula(aulaId: string): ProgressoCurso {
+    const aulas = this.aulas.map((aula) => {
+      return aula.id.valor === aulaId ? aula.iniciar().props : aula.props
+    })
+
+    return this.clone({ aulas, data: new Date() })
+  }
+
+  concluirAula(aulaId: string): ProgressoCurso {
+    if (this.concluido) return this
+
+    const aulas = this.aulas.map((aula) => {
+      return aula.id.valor === aulaId ? aula.concluir().props : aula.props
+    })
+
+    return this.clone({ aulas, data: new Date() })
+  }
+
+  zerarAula(aulaId: string): ProgressoCurso {
+    const aulas = this.aulas.map((aula) => {
+      return aula.id.valor === aulaId ? aula.zerar().props : aula.props
+    })
+    return this.clone({ aulas, data: new Date() })
+  }
+
+  alternarAula(aulaId: string): ProgressoCurso {
+    // const aula = this.aulas.find((a) => a.id.valor === aulaId)
+    const aula = this.progressoAula(aulaId)
+
+    if (!aula) return this
+
+    return aula.concluido
+      ? this.zerarAula(aula.id.valor)
+      : this.concluirAula(aula.id.valor)
+  }
+
+  progressoAula(aulaId: string): ProgressoAula | undefined {
+    return this.aulas.find((a) => a.id.valor === aulaId)
+  }
+
+  get concluido(): boolean {
+    return this.aulas.every((aula) => aula.concluido)
+  }
+
+  get duracaoTotal(): Duracao {
+    return this.aulas.reduce(
+      (total, aula) => total.somar(aula.duracao),
+      new Duracao()
+    )
+  }
+
+  get duracaoAssistida(): Duracao {
+    return this.aulas
+      .filter((aula) => aula.concluido)
+      .reduce((total, aula) => total.somar(aula.duracao), new Duracao())
+  }
+
+  get percentualAssistido(): number {
+    const fator = this.duracaoAssistida.segundos / this.duracaoTotal.segundos
+    return Math.floor(fator * 100)
   }
 }
