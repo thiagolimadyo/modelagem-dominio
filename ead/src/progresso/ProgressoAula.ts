@@ -42,15 +42,15 @@ export default class ProgressoAula extends Entidade<ProgressoAulaProps> {
     return this.dataConclusao != null
   }
 
-  iniciar() {
+  iniciar(): ProgressoAula {
     return this.clone({ dataInicio: new Date() })
   }
 
-  concluir() {
+  concluir(): ProgressoAula {
     return this.clone({ dataConclusao: new Date() })
   }
 
-  zerar() {
+  zerar(): ProgressoAula {
     return this.clone({ dataConclusao: undefined })
   }
 }

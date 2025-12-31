@@ -55,6 +55,16 @@ export default class ProgressoAulaBuilder {
     return this
   }
 
+  comDataInicio(data: Date): ProgressoAulaBuilder {
+    this.props.dataInicio = data
+    return this
+  }
+
+  semDataInicio(): ProgressoAulaBuilder {
+    this.props.dataInicio = undefined
+    return this
+  }
+
   semDuracao(): ProgressoAulaBuilder {
     this.props.duracao = undefined
     return this

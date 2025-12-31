@@ -40,6 +40,23 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
       this.aulas[0]
   }
 
+  riscoDeFraude(): number {
+    if (this.aulas.length < 2) return 0
+    const total = this.aulas.reduce((total, aulaAtual, i) => {
+      const dataAtual = aulaAtual.dataInicio
+      const dataDoProximo = this.aulas[i + 1]?.dataInicio
+
+      if (!dataAtual || !dataDoProximo) return total
+
+      const intervaloSuspeito = aulaAtual.duracao.segundos * 0.2 * 1000
+      const intervaloReal = Math.abs(
+        dataAtual.getTime() - dataDoProximo.getTime()
+      )
+      return total + (intervaloReal < intervaloSuspeito ? 1 : 0)
+    }, 0)
+    return Math.floor((total / (this.aulas.length - 1)) * 100)
+  }
+
   concluirCurso(): ProgressoCurso {
     if (this.concluido) return this
     const aulas = this.aulas.map((a) => a.concluir().props)
