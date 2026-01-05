@@ -41,7 +41,7 @@ describe('Testes no Objeto de Valor Ordem.ts', () => {
     const ordem2 = new Ordem(2)
     const ordem3 = new Ordem(2)
     expect(ordem1.comparar(ordem2) === -1).toBeTruthy()
-    expect(ordem2.comparar(ordem3) === -0).toBeTruthy()
+    expect(ordem2.comparar(ordem3) === 0).toBeTruthy()
     expect(ordem2.comparar(ordem1) === 1).toBeTruthy()
   })
 

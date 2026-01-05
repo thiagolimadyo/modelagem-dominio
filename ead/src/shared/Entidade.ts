@@ -21,7 +21,10 @@ export default abstract class Entidade<Props extends EntidadeProps> {
     return this.id.diferente(outraEntidade?.id)
   }
 
-  clone(novasProps?: Props): this {
-    return new (this.constructor as any)({ ...this.props, ...novasProps })
+  clone(novasProps?: Props, ...args: any): this {
+    return new (this.constructor as any)(
+      { ...this.props, ...novasProps },
+      ...args
+    )
   }
 }

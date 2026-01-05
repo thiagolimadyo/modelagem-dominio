@@ -3,6 +3,9 @@ import ProgressoCursoBuilder from '../data/ProgressoCursoBuilder'
 import Erros from '@/constants/Erros'
 import ProgressoAulaBuilder from '../data/ProgressoAulaBuilder'
 import { ProgressoAulaProps } from '@/progresso/ProgressoAula'
+import CursoConcluido from '@/progresso/CursoConcluido'
+import { faker } from '@faker-js/faker/locale/pt_BR'
+import ObservadorEventoDominio from '@/shared/ObservadorEventoDominio'
 
 const builder = () => ProgressoAulaBuilder.criar().naoIniciado().naoConcluido()
 const aulas: ProgressoAulaProps[] = [
@@ -234,5 +237,30 @@ describe('Testes para Entidade ProgressoCurso.ts', () => {
     const progresso = ProgressoCursoBuilder.criar().agora()
     const novoProgresso = progresso.alternarAula('1234')
     expect(novoProgresso.igual(progresso)).toBeTruthy()
+  })
+
+  it('Deve notificar conclusão do curso', () => {
+    const progresso = ProgressoCursoBuilder.criar()
+      .agora()
+      .registrar({
+        eventoOcorreu(evento: CursoConcluido) {
+          expect(evento.emailUsuario.valor).toBeDefined()
+          expect(evento.data).toBeDefined()
+          expect(evento.idCurso.valor).toBeDefined()
+        },
+      })
+      .concluirCurso()
+  })
+
+  it('Deve ignorar a notificacão de conclusão do curso', () => {
+    const progresso = ProgressoCursoBuilder.criar().agora().concluirCurso()
+    const novoProgresso = progresso.registrar({
+      eventoOcorreu(_: CursoConcluido) {
+        throw new Error('Deve falhar se chamar este método')
+      },
+    })
+
+    const aula1 = novoProgresso.aulas[0].id.valor
+    novoProgresso.zerarAula(aula1).concluirCurso()
   })
 })

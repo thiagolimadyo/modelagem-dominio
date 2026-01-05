@@ -5,6 +5,8 @@ import NomeSimples from '@/shared/NomeSimples'
 import ErroValidacao from '@/error/ErroValidacao'
 import Erros from '@/constants/Erros'
 import Duracao from '@/shared/Duracao'
+import ObservadorEventoDominio from '@/shared/ObservadorEventoDominio'
+import CursoConcluiudo from './CursoConcluido'
 
 export interface ProgressoCursoProps extends EntidadeProps {
   emailUsuario?: string
@@ -23,8 +25,14 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
   readonly aulas: ProgressoAula[]
   readonly aulaSelecionada: ProgressoAula
 
-  constructor(props: ProgressoCursoProps) {
-    super(props)
+  constructor(
+    props: ProgressoCursoProps,
+    private observadores: ObservadorEventoDominio<CursoConcluiudo>[] = []
+  ) {
+    super({
+      ...props,
+      dataConclusao: ProgressoCurso.calcularDataConclusao(props),
+    })
 
     if (!props.aulas?.length) {
       ErroValidacao.lancar(Erros.PROGRESSO_CURSO_SEM_AULAS)
@@ -33,11 +41,25 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
     this.emailUsuario = new Email(props.emailUsuario)
     this.nomeCurso = new NomeSimples(props.nomeCurso!, 3, 50)
     this.data = props.data ?? new Date()
-    this.dataConclusao = props.dataConclusao
+    this.dataConclusao = this.props.dataConclusao
     this.aulas = props.aulas.map((propsAula) => new ProgressoAula(propsAula))
     this.aulaSelecionada =
       this.aulas.find((aula) => aula.id.valor === props.aulaSelecionadaId) ??
       this.aulas[0]
+
+    const acabouDeConcluir = !props.dataConclusao && this.props.dataConclusao
+    if (acabouDeConcluir) {
+      this.notificarConclusao()
+    }
+  }
+
+  static calcularDataConclusao(props: ProgressoCursoProps): Date | undefined {
+    const cursoConcluido =
+      props.aulas?.every((aula) => aula.dataConclusao) ?? false
+
+    return cursoConcluido && !props.dataConclusao
+      ? new Date()
+      : props.dataConclusao
   }
 
   riscoDeFraude(): number {
@@ -60,7 +82,7 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
   concluirCurso(): ProgressoCurso {
     if (this.concluido) return this
     const aulas = this.aulas.map((a) => a.concluir().props)
-    return this.clone({ aulas, data: new Date() })
+    return this.clone({ aulas, data: new Date() }, this.observadores)
   }
 
   iniciarAulaAtual(): ProgressoCurso {
@@ -72,7 +94,10 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
   }
 
   selecionarAula(aulaId: string): ProgressoCurso {
-    return this.clone({ aulaSelecionadaId: aulaId, data: new Date() })
+    return this.clone(
+      { aulaSelecionadaId: aulaId, data: new Date() },
+      this.observadores
+    )
   }
 
   selecionarProximaAula(): ProgressoCurso {
@@ -90,7 +115,7 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
       return aula.id.valor === aulaId ? aula.iniciar().props : aula.props
     })
 
-    return this.clone({ aulas, data: new Date() })
+    return this.clone({ aulas, data: new Date() }, this.observadores)
   }
 
   concluirAula(aulaId: string): ProgressoCurso {
@@ -100,14 +125,14 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
       return aula.id.valor === aulaId ? aula.concluir().props : aula.props
     })
 
-    return this.clone({ aulas, data: new Date() })
+    return this.clone({ aulas, data: new Date() }, this.observadores)
   }
 
   zerarAula(aulaId: string): ProgressoCurso {
     const aulas = this.aulas.map((aula) => {
       return aula.id.valor === aulaId ? aula.zerar().props : aula.props
     })
-    return this.clone({ aulas, data: new Date() })
+    return this.clone({ aulas, data: new Date() }, this.observadores)
   }
 
   alternarAula(aulaId: string): ProgressoCurso {
@@ -123,6 +148,17 @@ export default class ProgressoCurso extends Entidade<ProgressoCursoProps> {
 
   progressoAula(aulaId: string): ProgressoAula | undefined {
     return this.aulas.find((a) => a.id.valor === aulaId)
+  }
+
+  registrar(
+    observador: ObservadorEventoDominio<CursoConcluiudo>
+  ): ProgressoCurso {
+    return this.clone(this.props, [...this.observadores, observador])
+  }
+
+  private notificarConclusao() {
+    const evento = new CursoConcluiudo(this.emailUsuario, this.id, new Date())
+    this.observadores.forEach((observador) => observador.eventoOcorreu(evento))
   }
 
   get concluido(): boolean {
